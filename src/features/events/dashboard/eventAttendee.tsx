@@ -3,9 +3,15 @@ import EventMember from './eventMember';
 
 type Props = {
   event: IEvents;
+  onSelectEvent(event: IEvents): void;
+  onDeleteEvent(eventId: string): void;
 };
 
-export default function eventAttendee({ event }: Props) {
+export default function eventAttendee({
+  event,
+  onSelectEvent,
+  onDeleteEvent,
+}: Props) {
   const hosted = event.attendees.find(
     (attendee) => attendee.id === event.hostUid
   );
@@ -36,7 +42,18 @@ export default function eventAttendee({ event }: Props) {
       </div>
       <div className="card-actions flex px-4 py-2">
         <div className="flex flex-1">{event.description}</div>
-        <button className="btn btn-neutral text-white">Join Now</button>
+        <button
+          className="btn btn-error text-white"
+          onClick={() => onDeleteEvent(event.id)}
+        >
+          Delete
+        </button>
+        <button
+          className="btn btn-neutral text-white"
+          onClick={() => onSelectEvent(event)}
+        >
+          View Now
+        </button>
       </div>
     </div>
   );
